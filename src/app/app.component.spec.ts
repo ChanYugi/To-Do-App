@@ -6,10 +6,6 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
     }).compileComponents();
-
-    //it function tests do not detect declared consts in before function, unsure 
-    // const fixture = TestBed.createComponent(AppComponent);
-    // const app = fixture.componentInstance;
   });
 
   //initialization checks
@@ -270,7 +266,7 @@ describe('AppComponent', () => {
       const selectedButtonElement = buttonElement as HTMLButtonElement;
       selectedButtonElement.click();
       fixture.detectChanges();
-      expect(app.filter).toBe("All");
+      expect(app.filter).toBe("all");
 
     }
   });
