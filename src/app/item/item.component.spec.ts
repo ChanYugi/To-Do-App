@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemComponent } from './item.component';
+import { Item } from '../item';
 
 describe('ItemComponent', () => {
   let component: ItemComponent;
@@ -61,4 +62,25 @@ describe('ItemComponent', () => {
     expect(component.item.description).toBe('testItem');
     expect(component.item.description).not.toBe('');
   });
+  
+  //testing @input
+  it('Should correctly take on passed @input value', () => {
+    //declares new 
+    const newItem: Item = {description:'newTestItem', done:false}
+    component.item = newItem;
+
+    fixture.detectChanges();
+    expect(component.item.description).toBe('newTestItem');
+  });
+
+  //testing @output
+  it('Should emite remove event on remove', () => {
+    spyOn(component.remove, 'emit');
+
+    //Trigger parent remove method in parent component
+    component.remove.emit(component.item);
+
+    expect(component.remove.emit).toHaveBeenCalledWith(component.item);
+  });
 });
+
