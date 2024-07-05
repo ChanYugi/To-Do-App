@@ -271,6 +271,8 @@ describe('AppComponent', () => {
     }
   });
 
+
+  //moreso integration testing (for filter options)
   it('Should change filter value to "all" on click', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
