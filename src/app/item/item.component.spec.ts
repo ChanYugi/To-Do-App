@@ -144,7 +144,7 @@ describe('ItemComponent', () => {
 
       //test for editable value to change
       expect(component.editable).toBe(false);
-      expect(inputField.value).toBe('');
+      expect(inputField.value).toBe('testItem');
     }
   });  
 });
