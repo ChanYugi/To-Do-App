@@ -88,7 +88,7 @@ describe('ItemComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     component.editable = true; //set editable to be true
     
-    const saveButton = compiled.querySelector('button.btn btn-save') as HTMLButtonElement;
+    const saveButton = compiled.querySelector('button.btn-save') as HTMLButtonElement;
     let inputField = compiled.querySelector('input.sm-text-input') as HTMLInputElement;
 
     const newItem: Item = {description:'testItem', done:false}
