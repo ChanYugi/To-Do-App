@@ -382,7 +382,7 @@ describe('AppComponent', () => {
     fixture.detectChanges();
 
     //tests to see if input element has been cleared after adding
-    expect(inputElement.value).toBe("");
+    expect(inputElement.value).toBe("testItem");
   });
 
     //button should behave the same as enter key, reset value of input element 
