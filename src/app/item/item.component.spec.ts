@@ -82,5 +82,66 @@ describe('ItemComponent', () => {
 
     expect(component.remove.emit).toHaveBeenCalledWith(component.item);
   });
+
+  //save button integration testing
+  it('Should set item description to input field and change editable on "save" button click', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const saveButton = compiled.querySelector('button.btn btn-save') as HTMLButtonElement;
+    let inputField = compiled.querySelector('input.sm-text-input') as HTMLInputElement;
+
+    const newItem: Item = {description:'testItem', done:false}
+    component.item = newItem;
+
+    component.editable = true; //set editable to be true
+    inputField.value = 'newTestItem'; //set input field to be new value
+
+    saveButton.click();
+
+    //manually update changes to dom
+    fixture.detectChanges();
+
+    //test for editable value to change
+    expect(component.editable).toBe(false);
+    expect(component.item.description).toBe('newTestItem');
+
+  });  
+
+  //save button integration testing
+  it('Should set save to set editable to be false on "cancel" button click', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const allButtonElements = compiled.querySelectorAll('button');
+    let buttonElement: HTMLButtonElement | null = null; //declare variable to hold desired button element
+
+    component.editable = true; //set editable to be true
+    let inputField = compiled.querySelector('input.sm-text-input') as HTMLInputElement;
+
+    const newItem: Item = {description:'testItem', done:false}
+    component.item = newItem;
+
+    inputField.value = 'newTestItem';
+
+    //would be easier with queryselector(#id)
+    allButtonElements.forEach((button)=> {
+      if (button.textContent?.trim() === 'Cancel') {
+        buttonElement = button as HTMLButtonElement;
+      }
+    });
+
+    expect(buttonElement).not.toBeNull();
+
+    //if not null, proceed with test
+    if(buttonElement){
+      //declare const as htmlbutton and perform test
+      const selectedButtonElement = buttonElement as HTMLButtonElement;
+      selectedButtonElement.click();
+
+      //manually update changes to dom
+      fixture.detectChanges();
+
+      //test for editable value to change
+      expect(component.editable).toBe(false);
+      expect(inputField.value).toBe('');
+    }
+  });  
 });
 

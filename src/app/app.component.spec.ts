@@ -367,48 +367,31 @@ describe('AppComponent', () => {
   //button should behave the same as enter key, reset value of input element 
   it(`Should clear input element on button press`, () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     const compiled = fixture.nativeElement as HTMLInputElement;
 
     //only one input element in the app html file, uses this to select it
-    const inputElement = compiled.querySelector('input') as HTMLInputElement;
+    const inputElement = compiled.querySelector('#addItemInput') as HTMLInputElement;
 
     //sets input value to testItem
     inputElement.value = 'testItem';
 
     //declares const to retrieve all button elements
-    const allButtonElements = compiled.querySelectorAll('button');
-    let buttonElement: HTMLButtonElement | null = null;
+    const buttonElement = compiled.querySelector('button.btn-primary') as HTMLButtonElement;
 
-    //sorts for Add button and sets buttonElement to that specific Add button
-    allButtonElements.forEach((button)=> {
-      if (button.textContent?.trim() === 'Add') {
-        buttonElement = button as HTMLButtonElement;
-      }
-    });
+    buttonElement.click();
+    fixture.detectChanges();
 
-    expect(buttonElement).not.toBeNull();
-
-    //if not null, proceed with test
-    if(buttonElement){
-      //declare const as htmlbutton for compiler and simulate button click
-      const selectedButtonElement = buttonElement as HTMLButtonElement;
-      selectedButtonElement.click();
-      fixture.detectChanges();
-
-      //tests to see if input element has been cleared after adding
-      expect(inputElement.value).toBe("");
-    }
-    });
+    //tests to see if input element has been cleared after adding
+    expect(inputElement.value).toBe("");
+  });
 
     //button should behave the same as enter key, reset value of input element 
   it(`Should clear input element on key press`, () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     const compiled = fixture.nativeElement as HTMLInputElement;
 
     //only one input element in the app html file, uses this to select it
-    const inputElement = compiled.querySelector('input') as HTMLInputElement;
+    const inputElement = compiled.querySelector('#addItemInput') as HTMLInputElement;
 
     //sets input value to testItem
     inputElement.value = 'testItem';
@@ -421,5 +404,5 @@ describe('AppComponent', () => {
 
     //checks to see if the reset was made
     expect(inputElement.value).toBe("");
-    });
+  });
 });
