@@ -86,13 +86,14 @@ describe('ItemComponent', () => {
   //save button integration testing
   it('Should set item description to input field and change editable on "save" button click', () => {
     const compiled = fixture.nativeElement as HTMLElement;
+    
+    component.editable = true; //set editable to be true
     const saveButton = compiled.querySelector('button.btn btn-save') as HTMLButtonElement;
     let inputField = compiled.querySelector('input.sm-text-input') as HTMLInputElement;
 
     const newItem: Item = {description:'testItem', done:false}
     component.item = newItem;
 
-    component.editable = true; //set editable to be true
     inputField.value = 'newTestItem'; //set input field to be new value
 
     saveButton.click();
