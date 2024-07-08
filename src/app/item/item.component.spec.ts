@@ -83,6 +83,39 @@ describe('ItemComponent', () => {
     expect(component.remove.emit).toHaveBeenCalledWith(component.item);
   });
 
+  //edit button integration testing
+  //save button integration testing
+  it('Should set save to set editable to be false on "cancel" button click', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    const allButtonElements = compiled.querySelectorAll('button');
+    let buttonElement: HTMLButtonElement | null = null; //declare variable to hold desired button element
+
+    const newItem: Item = {description:'testItem', done:false}
+    component.item = newItem;
+    fixture.detectChanges();
+
+    //would be easier with queryselector(#id)
+    allButtonElements.forEach((button)=> {
+      if (button.textContent?.trim() === 'Edit') {
+        buttonElement = button as HTMLButtonElement;
+      }
+    });
+
+    //if not null, proceed with test
+    if(buttonElement){
+      //declare const as htmlbutton and perform test
+      const selectedButtonElement = buttonElement as HTMLButtonElement;
+      selectedButtonElement.click();
+
+      //manually update changes to dom
+      fixture.detectChanges();
+
+      //test for editable value to change
+      expect(component.editable).toBe(true);
+    }
+  });  
+
   //save button integration testing
   it('Should set item description to input field and change editable on "save" button click', () => {
     const compiled = fixture.nativeElement as HTMLElement;
@@ -105,7 +138,6 @@ describe('ItemComponent', () => {
     //test for editable value to change
     expect(component.editable).toBe(false);
     expect(component.item.description).toBe('newTestItem');
-
   });  
 
   //save button integration testing
@@ -123,6 +155,7 @@ describe('ItemComponent', () => {
     component.item = newItem;
 
     inputField.value = 'newTestItem';
+    fixture.detectChanges();
 
     //would be easier with queryselector(#id)
     allButtonElements.forEach((button)=> {
@@ -130,8 +163,6 @@ describe('ItemComponent', () => {
         buttonElement = button as HTMLButtonElement;
       }
     });
-
-    expect(buttonElement).not.toBeNull();
 
     //if not null, proceed with test
     if(buttonElement){
@@ -147,5 +178,115 @@ describe('ItemComponent', () => {
       expect(inputField.value).toBe('testItem');
     }
   });  
+
+  //edit and save button integration testing
+  it('Should click edit and save test input on button clicks and field inputs', () => {
+    const compiled = fixture.nativeElement as HTMLElement
+    const allButtonElements = compiled.querySelectorAll('button');
+    let editButton: HTMLButtonElement | null = null;
+
+    const newItem: Item = {description:'testItem', done:false}
+    component.item = newItem;
+
+    //would be easier with queryselector(#id)
+    allButtonElements.forEach((button)=> {
+      if (button.textContent?.trim() === 'Edit') {
+        editButton = button as HTMLButtonElement;
+      }
+    });
+
+    if(editButton){
+      //declare const as htmlbutton and perform test
+      const selectedButtonElement = editButton as HTMLButtonElement;
+      selectedButtonElement.click();
+
+      //manually update changes to dom
+      fixture.detectChanges();
+
+      //test for editable value to change
+      expect(component.editable).toBe(true);
+      expect(component.item.description).toBe('testItem');
+    }
+
+    let inputField = compiled.querySelector('input.sm-text-input') as HTMLInputElement;
+    inputField.value = 'newTestItem';
+    fixture.detectChanges();
+
+    
+    const saveButton = compiled.querySelector('button.btn-save') as HTMLButtonElement;
+    saveButton.click();
+
+    expect(component.editable).toBe(false);
+    expect(component.item.description).toBe('newTestItem');
+  });
+  
+
+  //edit and cancel button integration testing
+  it('Should click edit button and cancel input field upon button clicks', () => {
+    const compiled = fixture.nativeElement as HTMLElement
+    const allButtonElements = compiled.querySelectorAll('button');
+    let buttonElement: HTMLButtonElement | null = null; //declare variable to hold desired button element
+    let editButton: HTMLButtonElement | null = null;
+
+    const newItem: Item = {description:'testItem', done:false}
+    component.item = newItem;
+
+    //would be easier with queryselector(#id)
+    allButtonElements.forEach((button)=> {
+      if (button.textContent?.trim() === 'Edit') {
+        editButton = button as HTMLButtonElement;
+      }
+    });
+
+
+    if(editButton){
+      //declare const as htmlbutton and perform test
+      const selectedButtonElement = editButton as HTMLButtonElement;
+      selectedButtonElement.click();
+
+      //manually update changes to dom
+      fixture.detectChanges();
+
+      //test for editable value to change
+      expect(component.editable).toBe(true);
+      expect(component.item.description).toBe('testItem');
+    }
+
+    let inputField = compiled.querySelector('input.sm-text-input') as HTMLInputElement;
+    inputField.value = 'newTestItem';
+    fixture.detectChanges();
+    
+    allButtonElements.forEach((button)=> {
+      if (button.textContent?.trim() === 'Cancel') {
+        buttonElement = button as HTMLButtonElement;
+      }
+    });
+
+    //if not null, proceed with test
+    if(buttonElement){
+      //declare const as htmlbutton and perform test
+      const selectedButtonElement = buttonElement as HTMLButtonElement;
+      selectedButtonElement.click();
+
+      //manually update changes to dom
+      fixture.detectChanges();
+
+      //test for editable value to change
+      expect(component.editable).toBe(false);
+    }
+
+    if(editButton){
+      //declare const as htmlbutton and perform test
+      const selectedButtonElement = editButton as HTMLButtonElement;
+      selectedButtonElement.click();
+
+      //manually update changes to dom
+      fixture.detectChanges();
+
+      //test for editable value to change
+      expect(component.editable).toBe(true);
+      expect(inputField.value).toBe('testItem');
+    }
+  });
 });
 
